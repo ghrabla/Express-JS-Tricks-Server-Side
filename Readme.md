@@ -1,2 +1,1 @@
-simple project to move on with javascript framework express js  
-let's started
+project to move on with javascript framework express js with mvc design pattern which mean model view controller and some packages that make it really power and easy to use
