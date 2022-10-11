@@ -1,5 +1,6 @@
 const conn = require("../DB/db");
 const AppError = require("../helpers/appError");
+const bcrypt = require("bcrypt"); 
 
 exports.createuser = (values,res, next) =>{
     conn.query(
@@ -43,21 +44,32 @@ exports.getoneuser = (req, res, next) => {
 }
 
 exports.checkuser = (req, res, next) =>{
-    conn.query(
-        "SELECT * FROM user WHERE email = ? AND password = ?",
-        [req.body.email, req.body.password],
-        function (err, data, fields) {
-          if (err) return next(new AppError(err, 500));
-          if (data.length > 0) {
-            res.status(200).json({
-              status: "success",
-              data: data,
-            });
-          } else {
-            return next(new AppError("user does not exist please try again", 404));
-          }
+  
+  conn.query(
+        "SELECT * FROM user WHERE email = ? ",
+        [req.body.email],
+        async function (err, data, fields) {
+            if (err) return next(new AppError(err, 500));
+           
+            let user = data[0].password; 
+            
+            if (user) {
+              // check user password with hashed password stored in the database
+              const validPassword = await bcrypt.compare(req.body.password, user);
+              if (validPassword) {
+                res.status(200).json({ message: "Valid password" });
+              } else {
+                res.status(400).json({ error: "Invalid Password" });
+              }
+            } else {
+              res.status(401).json({ error: "User does not exist" });
+            }
+            
+           
         }
       );
+      // $2b$10$jlJomfEcEwF9aWDvKKQ4Yej6utSX1ytS9ohMbrorWp5w2sXFUOX8W
+    //  return "$2b$10$jlJomfEcEwF9aWDvKKQ4Yej6utSX1ytS9ohMbrorWp5w2sXFUOX8W";
 }
 
 exports.updateuser = (req, res, next) =>{
