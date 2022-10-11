@@ -30,8 +30,10 @@ exports.getuser = (req, res, next) => {
 };
 
 exports.updateuser = (req, res, next) => {
-  
-  if (!req.body) return next(new AppError("No form data found", 404));
+  if (!req.params.id) {
+    return next(new AppError("No user id found", 404));
+  }
+  else if(!req.body) return next(new AppError("No form data found", 404));
  
   model.updateuser(req, res, next)
   

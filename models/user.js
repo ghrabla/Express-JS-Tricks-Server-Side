@@ -64,7 +64,7 @@ exports.updateuser = (req, res, next) =>{
     conn.query(
         "UPDATE user SET fullname = ?, email = ?, password = ? WHERE id = ?",
         [req.body.fullname,req.body.email,req.body.password,req.params.id],
-        function (err, data, fields) {
+        function (err) {
           if (err) return next(new AppError(err, 500));
           res.status(201).json({
             status: "success",
