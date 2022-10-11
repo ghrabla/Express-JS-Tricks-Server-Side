@@ -1,15 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-// const multer = require("multer");
+const router = require("./routes");
+const AppError = require("./helpers/appError");
+const errorHandler = require("./helpers/errorHandler");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 // in latest body-parser use like below.
 app.use(bodyParser.urlencoded({ extended: true }));
-const router = require("./routes");
-const AppError = require("./utils/appError");
-const errorHandler = require("./utils/errorHandler");
 
 /* Allowing the server to accept requests from other domains. */
 app.use(cors());
