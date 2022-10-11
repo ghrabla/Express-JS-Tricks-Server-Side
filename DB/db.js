@@ -3,9 +3,10 @@ const conn = mysql.createConnection({
  host: "localhost",
  user: "root",
  password: "", 
- database: "json-map",
+ database: "cars-reservation",
 });
 
 conn.connect();
 
 module.exports = conn;
+
