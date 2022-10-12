@@ -24,9 +24,12 @@ exports.login = async (req, res, next) => {
   if (!req.body) {
     return next(new AppError("No user found", 404));
   }
-  model.checkuser(req, res, next) 
-  // const user = await model.checkuser(req, res, next)
-  
+  // model.checkuser(req, res, next) 
+  model.checkuser(req, res, next)
+ 
+
+
+  // console.log(user)
   // if (user) {
   //   // check user password with hashed password stored in the database
   //   const validPassword = await bcrypt.compare(req.body.password, user);
